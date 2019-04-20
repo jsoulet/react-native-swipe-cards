@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import { StyleSheet, Text, View, Dimensions, Image, Animated, PanResponder } from 'react-native';
 
 const SCREEN_HEIGHT = Dimensions.get('window').height;
@@ -106,27 +106,30 @@ export default class App extends React.Component {
       if(index < this.state.currentIndex || index > this.state.currentIndex + 1) {
         return null
       }
-      if( this.state.currentIndex === index ) {
-        return (
-          <Animated.View
-            {...this.panResponder.panHandlers}
-            style={[this.rotateAndTranslate, styles.animated]}
-            key={item.id}>
+
+      const viewStyle = [styles.animated]
+      const isFirstOfPile = this.state.currentIndex === index;
+      if(isFirstOfPile) {
+        viewStyle.push(this.rotateAndTranslate)
+      } else {
+        viewStyle.push({opacity: this.nextCardOpacity, transform: [{scale: this.nextCardScale}]})
+      }
+
+      return (
+        <Animated.View
+          {...this.panResponder.panHandlers}
+          style={viewStyle}
+          key={item.id}>
+          {isFirstOfPile && (<Fragment>
             <Animated.View style={[styles.textContainer, styles.likeContainer, {opacity: this.likeOpacity}]}>
               <Text style={[styles.text, styles.like]}>LIKE</Text>
             </Animated.View>
             <Animated.View style={[styles.textContainer, styles.nopeContainer, {opacity: this.nopeOpacity}]}>
               <Text style={[styles.text, styles.nope]}>NOPE</Text>
             </Animated.View>
-            <Image  style={[styles.image]} source={item.uri}/>
-          </Animated.View>)
-      } else {
-        return (
-          <Animated.View
-            style={[styles.animated, {opacity: this.nextCardOpacity, transform: [{scale: this.nextCardScale}]}]}
-            key={item.id}>
-            <Image  style={[styles.image]} source={item.uri}/>
-          </Animated.View>)}
+          </Fragment>)}
+          <Image  style={[styles.image]} source={item.uri}/>
+        </Animated.View>);
 
     }).reverse()
   }
