@@ -7,6 +7,10 @@ class CameraView extends Component {
   state = {
     hasCameraPermission: null,
     cameraType: Camera.Constants.Type.back,
+  };
+
+  static navigationOptions = {
+    tabBarVisible: false
   }
 
   camera = null
@@ -31,6 +35,10 @@ class CameraView extends Component {
     }
   };
 
+  goBack = () => {
+    this.props.navigation.goBack();
+  }
+
   render() {
     const { hasCameraPermission, cameraType } = this.state;
     if ( hasCameraPermission === null) {
@@ -40,15 +48,20 @@ class CameraView extends Component {
     } else {
       return <View style={styles.cameraWrapper}>
         <Camera style={styles.camera} type={cameraType} ref={ref => { this.camera = ref; }}>
-          <TouchableOpacity
-            style={styles.flipIconContainer}
-            onPress={this.switchCameraType}>
-              <Ionicons name="ios-reverse-camera" size={32} color="white" style={styles.flipIcon}/>
+        <TouchableOpacity
+            style={styles.backIconContainer}
+            onPress={this.goBack}>
+              <Ionicons name="ios-close" size={48} color="white" style={styles.icon}/>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.flipIconContainer}
+            onPress={this.switchCameraType}>
+              <Ionicons name="ios-reverse-camera" size={32} color="white" style={styles.icon}/>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.takePictureContainer}
             onPress={this.takePicture}>
-              <MaterialCommunityIcons name="circle-slice-8" size={64} color="white" style={styles.flipIcon}/>
+              <MaterialCommunityIcons name="circle-slice-8" size={64} color="white" style={styles.icon}/>
             </TouchableOpacity>
         </Camera>
       </View>
@@ -63,15 +76,22 @@ const styles = StyleSheet.create({
   camera: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'flex-end',
+    justifyContent: 'center',
     alignItems: 'flex-end',
   },
   flipIconContainer: {
-    //flex: 0.1,
+    position: 'absolute',
+    right: 20,
+    bottom: 20,
     //alignSelf: 'flex-end',
     //alignItems: 'flex-start',
   },
-  flipIcon: {
+  backIconContainer: {
+    position: 'absolute',
+    right: 20,
+    top: 30,
+  },
+  icon: {
     margin: 20,
   }
 })

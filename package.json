@@ -4,16 +4,41 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "prettier": "prettier --write {src,components}/**/*.js"
+  },
+  "husky": {},
+  "lint-staged": {
+    "linters": {
+      "{src,components}/**/*.js": [
+        "prettier --write",
+        "git add"
+      ]
+    },
+    "ignore": [
+      "node_modules",
+      "dist",
+      "package-lock.json"
+    ]
   },
   "dependencies": {
+    "babel-plugin-module-resolver": "^3.2.0",
     "expo": "^32.0.0",
+    "firebase": "^5.7.3",
     "react": "16.5.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
+    "react-native-elements": "^1.1.0",
     "react-navigation": "^3.8.1"
   },
   "devDependencies": {
-    "babel-preset-expo": "^5.0.0"
+    "babel-preset-expo": "^5.0.0",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-config-prettier": "^4.3.0",
+    "eslint-plugin-prettier": "^3.1.0",
+    "husky": "^2.3.0",
+    "lint-staged": "^8.1.7",
+    "prettier": "^1.17.1"
   },
   "private": true
 }

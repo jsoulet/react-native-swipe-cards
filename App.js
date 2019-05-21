@@ -1,9 +1,9 @@
 import React from 'react';
 //import SwipeCards from './src/TabNavigator/SwipeCards';
-import TabNavigator from './src/TabNavigator';
+import '$src/Firebase';
+import App from '$src/index';
 
-const App = () => {
-  return <TabNavigator/>;
+const AppContainer = () => {
+  return <App/>
 }
-
-export default  App;
+ export default AppContainer;

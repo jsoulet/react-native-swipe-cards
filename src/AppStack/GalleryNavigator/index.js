@@ -14,7 +14,7 @@ const GalleryNavigator = createStackNavigator({
   }
 }, {
   initialRouteName: 'Gallery',
-  mode: 'modal',
+  mode: 'card',
   //headerMode: 'none',
   navigationOptions: ({ navigation, screenProps }) => {
     console.log(getActiveChildNavigationOptions(navigation, screenProps))
