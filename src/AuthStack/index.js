@@ -4,18 +4,18 @@ import LoginScreen, { NAVIGATION_NAME as Login } from './LoginScreen';
 // Forgot password
 
 const AuthStack = createStackNavigator(
-    {
-        [Login]: {
-            screen: LoginScreen,
-        },
-        [Signup]: {
-            screen: SignUpScreen,
-        },
+  {
+    [Login]: {
+      screen: LoginScreen,
     },
-    {
-        initialRouteName: Login,
-        mode: 'modal',
-    }
+    [Signup]: {
+      screen: SignUpScreen,
+    },
+  },
+  {
+    initialRouteName: Login,
+    mode: 'modal',
+  }
 );
 
 export const NAVIGATION_NAME = 'AUTH_STACK';

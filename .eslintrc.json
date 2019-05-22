@@ -1,7 +1,21 @@
 {
   "extends": ["airbnb", "prettier"],
   "plugins": ["prettier", "react", "react-native"],
+  "parser": "babel-eslint",
   "rules": {
-    "prettier/prettier": ["error"]
+    "prettier/prettier": ["error"],
+    "import/named": 0,
+    "import/no-named-as-default-member": 0,
+    "import/no-named-as-default": 0,
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "no-use-before-define": 0,
+    "global-require": 0,
+    "react/jsx-indent": [2, 2, {"checkAttributes": true, "indentLogicalExpressions": true }],
+    "react/destructuring-assignment": 0,
+    "react/prop-types": [2, {"ignore": ["navigation"]}],
+    "import/no-unresolved": [2, { "ignore": ["^\\$(component|src)", "^@expo\/"] }]
+  },
+  "settings": {
+    "import/ignore": ["^@expo"]
   }
 }

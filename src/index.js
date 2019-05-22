@@ -7,10 +7,10 @@ const appNavigator = createSwitchNavigator(
   {
     [Auth]: AuthStack,
     [App]: AppStack,
-    [Loading]: LoadingScreen
+    [Loading]: LoadingScreen,
   },
   {
-    initialRouteName: Loading
+    initialRouteName: Loading,
   }
 );
 
