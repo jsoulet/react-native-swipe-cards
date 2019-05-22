@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react';
+import React, { Fragment } from 'react';
 import { StyleSheet, Text, View, Dimensions, Image, Animated, PanResponder } from 'react-native';
 
 const SCREEN_HEIGHT = Dimensions.get('window').height;
@@ -7,53 +7,50 @@ const HEADER_HEIGHT = 60;
 const FOOTER_HEIGHT = 60;
 
 const Images = [
-  { id: '1', uri: require('../../../assets/images/palmtree.jpg'), name:'palmtree' },
-  { id: '2', uri: require('../../../assets/images/church.jpg'), name:'church' },
-  { id: '3', uri: require('../../../assets/images/egg.jpg'), name:'egg' },
-  { id: '4', uri: require('../../../assets/images/cookies.jpg'), name:'cookies' },
-  { id: '5', uri: require('../../../assets/images/forest.jpg'), name:'forest' },
+  { id: '1', uri: require('../../../assets/images/palmtree.jpg'), name: 'palmtree' },
+  { id: '2', uri: require('../../../assets/images/church.jpg'), name: 'church' },
+  { id: '3', uri: require('../../../assets/images/egg.jpg'), name: 'egg' },
+  { id: '4', uri: require('../../../assets/images/cookies.jpg'), name: 'cookies' },
+  { id: '5', uri: require('../../../assets/images/forest.jpg'), name: 'forest' }
 ];
 
 export default class SwipeCards extends React.Component {
-
   constructor() {
     super();
 
     this.position = new Animated.ValueXY();
     this.rotation = this.position.x.interpolate({
-      inputRange: [-SCREEN_WIDTH/2, 0, SCREEN_WIDTH/2],
+      inputRange: [-SCREEN_WIDTH / 2, 0, SCREEN_WIDTH / 2],
       outputRange: ['-10deg', '0deg', '10deg'],
       extrapolate: 'clamp'
     });
     this.rotateAndTranslate = {
-      transform: [{rotate: this.rotation},
-      ...this.position.getTranslateTransform()]
+      transform: [{ rotate: this.rotation }, ...this.position.getTranslateTransform()]
     };
     this.likeOpacity = this.position.x.interpolate({
-      inputRange: [-SCREEN_WIDTH/2, 0, SCREEN_WIDTH/2],
+      inputRange: [-SCREEN_WIDTH / 2, 0, SCREEN_WIDTH / 2],
       outputRange: [0, 0, 1],
       extrapolate: 'clamp'
     });
     this.nopeOpacity = this.position.x.interpolate({
-      inputRange: [-SCREEN_WIDTH/2, 0, SCREEN_WIDTH/2],
+      inputRange: [-SCREEN_WIDTH / 2, 0, SCREEN_WIDTH / 2],
       outputRange: [1, 0, 0],
       extrapolate: 'clamp'
     });
     this.nextCardOpacity = this.position.x.interpolate({
-      inputRange: [-SCREEN_WIDTH/2, 0, SCREEN_WIDTH/2],
+      inputRange: [-SCREEN_WIDTH / 2, 0, SCREEN_WIDTH / 2],
       outputRange: [1, 0, 1],
       extrapolate: 'clamp'
     });
     this.nextCardScale = this.position.x.interpolate({
-      inputRange: [-SCREEN_WIDTH/2, 0, SCREEN_WIDTH/2],
+      inputRange: [-SCREEN_WIDTH / 2, 0, SCREEN_WIDTH / 2],
       outputRange: [1, 0.8, 1],
       extrapolate: 'clamp'
     });
 
-
     this.state = {
-      currentIndex: 0,
-    }
+      currentIndex: 0
+    };
   }
 
   componentWillMount() {
@@ -62,87 +59,105 @@ export default class SwipeCards extends React.Component {
       onPanResponderMove: (event, gestureState) => {
         this.position.setValue({
           x: gestureState.dx,
-          y: gestureState.dy,
-        })
+          y: gestureState.dy
+        });
       },
       onPanResponderRelease: (event, gestureState) => {
-        if(gestureState.dx > 120) {
+        if (gestureState.dx > 120) {
           return Animated.spring(this.position, {
-            toValue: {x: SCREEN_WIDTH + 100, y: gestureState.dy}
+            toValue: { x: SCREEN_WIDTH + 100, y: gestureState.dy }
           }).start(() => {
             this.setState(
-              ({currentIndex}) => {
-                return {currentIndex: currentIndex + 1}
+              ({ currentIndex }) => {
+                return { currentIndex: currentIndex + 1 };
               },
               () => {
-                this.position.setValue({ x: 0, y: 0 })
+                this.position.setValue({ x: 0, y: 0 });
               }
-          )
-        })}
+            );
+          });
+        }
 
-        if(gestureState.dx < -120) {
+        if (gestureState.dx < -120) {
           return Animated.spring(this.position, {
-            toValue: {x: -SCREEN_WIDTH - 100, y: gestureState.dy}
+            toValue: { x: -SCREEN_WIDTH - 100, y: gestureState.dy }
           }).start(() => {
             this.setState(
-              ({currentIndex}) => {
-                return {currentIndex: currentIndex + 1}
+              ({ currentIndex }) => {
+                return { currentIndex: currentIndex + 1 };
               },
               () => {
-                this.position.setValue({ x: 0, y: 0 })
+                this.position.setValue({ x: 0, y: 0 });
               }
-          )
-        })}
+            );
+          });
+        }
         return Animated.spring(this.position, {
-          toValue: {x: 0, y: 0},
+          toValue: { x: 0, y: 0 },
           friction: 4
-        }).start()
+        }).start();
       }
     });
   }
 
-  renderImages = (images) => {
-    return images.map((item, index) => {
-      if(index < this.state.currentIndex || index > this.state.currentIndex + 1) {
-        return null
-      }
+  renderImages = images => {
+    return images
+      .map((item, index) => {
+        if (index < this.state.currentIndex || index > this.state.currentIndex + 1) {
+          return null;
+        }
 
-      const viewStyle = [styles.animated]
-      const isFirstOfPile = this.state.currentIndex === index;
-      if(isFirstOfPile) {
-        viewStyle.push(this.rotateAndTranslate)
-      } else {
-        viewStyle.push({opacity: this.nextCardOpacity, transform: [{scale: this.nextCardScale}]})
-      }
+        const viewStyle = [styles.animated];
+        const isFirstOfPile = this.state.currentIndex === index;
+        if (isFirstOfPile) {
+          viewStyle.push(this.rotateAndTranslate);
+        } else {
+          viewStyle.push({
+            opacity: this.nextCardOpacity,
+            transform: [{ scale: this.nextCardScale }]
+          });
+        }
 
-      return (
-        <Animated.View
-          {...this.panResponder.panHandlers}
-          style={viewStyle}
-          key={item.id}>
-          {isFirstOfPile && (<Fragment>
-            <Animated.View style={[styles.textContainer, styles.likeContainer, {opacity: this.likeOpacity}]}>
-              <Text style={[styles.text, styles.like]}>LIKE</Text>
-            </Animated.View>
-            <Animated.View style={[styles.textContainer, styles.nopeContainer, {opacity: this.nopeOpacity}]}>
-              <Text style={[styles.text, styles.nope]}>NOPE</Text>
-            </Animated.View>
-          </Fragment>)}
-          <Image  style={[styles.image]} source={item.uri}/>
-        </Animated.View>);
-
-    }).reverse()
-  }
+        return (
+          <Animated.View {...this.panResponder.panHandlers} style={viewStyle} key={item.id}>
+            {isFirstOfPile && (
+              <Fragment>
+                <Animated.View
+                  style={[
+                    styles.textContainer,
+                    styles.likeContainer,
+                    { opacity: this.likeOpacity }
+                  ]}
+                >
+                  <Text style={[styles.text, styles.like]}>LIKE</Text>
+                </Animated.View>
+                <Animated.View
+                  style={[
+                    styles.textContainer,
+                    styles.nopeContainer,
+                    { opacity: this.nopeOpacity }
+                  ]}
+                >
+                  <Text style={[styles.text, styles.nope]}>NOPE</Text>
+                </Animated.View>
+              </Fragment>
+            )}
+            <Image style={[styles.image]} source={item.uri} />
+          </Animated.View>
+        );
+      })
+      .reverse();
+  };
   render() {
     return (
       <View style={styles.wrapper}>
-        <View style={styles.header}><Text></Text></View>
-        <View style={styles.container}>
-
-            {this.renderImages(Images)}
-
+        <View style={styles.header}>
+          <Text />
         </View>
-        <View style={styles.footer}><Text></Text></View>
+        <View style={styles.container}>{this.renderImages(Images)}</View>
+        <View style={styles.footer}>
+          <Text />
+        </View>
       </View>
     );
   }
@@ -150,16 +165,16 @@ export default class SwipeCards extends React.Component {
 
 const styles = StyleSheet.create({
   wrapper: {
-    flex: 1,
+    flex: 1
   },
   header: {
-    height: HEADER_HEIGHT,
+    height: HEADER_HEIGHT
   },
   container: {
-    flex: 1,
+    flex: 1
   },
   footer: {
-    height: FOOTER_HEIGHT,
+    height: FOOTER_HEIGHT
   },
   animated: {
     height: SCREEN_HEIGHT - (HEADER_HEIGHT + FOOTER_HEIGHT),
@@ -172,13 +187,12 @@ const styles = StyleSheet.create({
     height: null,
     width: null,
     resizeMode: 'cover',
-    borderRadius: 20,
+    borderRadius: 20
   },
   textContainer: {
     position: 'absolute',
     zIndex: 1,
-    top: 50,
-
+    top: 50
   },
   text: {
     borderWidth: 1,
@@ -186,12 +200,12 @@ const styles = StyleSheet.create({
     fontWeight: '800'
   },
   likeContainer: {
-    transform: [{rotate: '-30deg'}],
-    left: 40,
+    transform: [{ rotate: '-30deg' }],
+    left: 40
   },
   nopeContainer: {
-    transform: [{rotate: '30deg'}],
-    right: 40,
+    transform: [{ rotate: '30deg' }],
+    right: 40
   },
   like: {
     color: 'green',

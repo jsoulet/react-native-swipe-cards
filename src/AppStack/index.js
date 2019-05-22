@@ -6,14 +6,14 @@ import GalleryNavigator from './GalleryNavigator';
 import Camera from './Camera';
 
 const AppStack = createBottomTabNavigator(
-  {
-    SwipeCards: SwipeCards,
-    Camera: Camera,
-    GalleryNavigator: GalleryNavigator
-  },
-  {
-    initialRouteName: 'GalleryNavigator'
-  }
+    {
+        SwipeCards: SwipeCards,
+        Camera: Camera,
+        GalleryNavigator: GalleryNavigator,
+    },
+    {
+        initialRouteName: 'GalleryNavigator',
+    }
 );
 
 export const NAVIGATION_NAME = 'APP_STACK';
