@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, KeyboardAvoidingView } from 'react-native';
-import { Input, Button } from 'react-native-elements';
+import { View, StyleSheet } from 'react-native';
+import firebase from 'firebase';
+
 import { NAVIGATION_NAME as Signup } from '../SignUpScreen';
 import { NAVIGATION_NAME as App } from '$src/AppStack';
-import firebase from 'firebase';
-import variables from '$components/variables';
+import LoginForm from './LoginForm';
+import NewAccountLink from './NewAccountLink';
 
 class LoginScreen extends Component {
   state = {
-    email: '',
-    password: '',
     error: null,
   };
 
@@ -30,38 +29,10 @@ class LoginScreen extends Component {
 
   render() {
     return (
-      <KeyboardAvoidingView style={styles.view} behavior="padding">
-        <Input
-          keyboardType="email-address"
-          autoCapitalize="none"
-          autoCorrect={false}
-          value={this.state.email}
-          onChangeText={email => {
-            this.setState({ email });
-          }}
-          onFocus={() => {
-            this.setState({ error: null });
-          }}
-          label="Email"
-        />
-        <Input
-          secureTextEntry
-          autoCapitalize="none"
-          value={this.state.password}
-          onChangeText={password => {
-            this.setState({ password });
-          }}
-          onFocus={() => {
-            this.setState({ error: null });
-          }}
-          label="Password"
-        />
-        {!!this.state.error && <Text style={styles.error}>{this.state.error}</Text>}
-        <View style={styles.buttonContainer}>
-          <Button title="Login" onPress={() => this.login(this.state.email, this.state.password)} />
-          <Button title="Create a new account" type="clear" onPress={this.onPressSignUp} />
-        </View>
-      </KeyboardAvoidingView>
+      <View style={styles.view}>
+        <LoginForm onPressLogin={this.login} error={this.state.error} />
+        <NewAccountLink onPressButton={this.onPressSignUp} />
+      </View>
     );
   }
 }
@@ -74,15 +45,6 @@ LoginScreen.navigationOptions = {
 const styles = StyleSheet.create({
   view: {
     flex: 1,
-    padding: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  buttonContainer: {
-    marginTop: 20,
-  },
-  error: {
-    color: variables.color.negative,
   },
 });
 

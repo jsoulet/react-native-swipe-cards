@@ -3,7 +3,6 @@ import { View, Text, KeyboardAvoidingView, StyleSheet } from 'react-native';
 import { Input, Button } from 'react-native-elements';
 import { NAVIGATION_NAME as App } from '$src/AppStack';
 import firebase from 'firebase';
-import variables from '$components/variables';
 
 class SignUpScreen extends Component {
   state = {
@@ -102,9 +101,6 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     marginTop: 20,
-  },
-  error: {
-    color: variables.color.negative,
   },
 });
 

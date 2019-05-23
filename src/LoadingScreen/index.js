@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { ActivityIndicator, View, StyleSheet } from 'react-native';
 import firebase from 'firebase';
+
 import { NAVIGATION_NAME as APP_NAVIGATION_NAME } from '../AppStack';
 import { NAVIGATION_NAME as AUTH_NAVIGATION_NAME } from '../AuthStack';
 
-class LoadingScreen extends Component {
+import LoadingScreen from './component';
+
+class LoadingScreenContainer extends Component {
   componentDidMount() {
     this.checkLogin();
   }
@@ -18,22 +20,10 @@ class LoadingScreen extends Component {
   };
 
   render() {
-    return (
-      <View style={styles.view}>
-        <ActivityIndicator size="large" />
-      </View>
-    );
+    return <LoadingScreen />;
   }
 }
 
-const styles = StyleSheet.create({
-  view: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
-
 export const NAVIGATION_NAME = 'LOADING_SCREEN';
 
-export default LoadingScreen;
+export default LoadingScreenContainer;
