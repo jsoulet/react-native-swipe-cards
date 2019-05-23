@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, StyleSheet, KeyboardAvoidingView } from 'react-native';
-import { Input, Button } from 'react-native-elements';
-import { SimpleLineIcons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { Button } from 'react-native-elements';
+import { SimpleLineIcons } from '@expo/vector-icons';
 
-import variables from '$components/variables';
+import Input from '$components/Input';
+import InputPassword from '$components/InputPassword';
 
 class LoginForm extends Component {
   state = {
-    focusedInput: null,
-    isPasswordInputProtected: true,
     email: '',
     password: '',
   };
@@ -22,89 +21,33 @@ class LoginForm extends Component {
     this.setState({ password });
   };
 
-  onTogglePasswordInputProtection = () => {
-    this.setState(({ isPasswordInputProtected }) => ({
-      isPasswordInputProtected: !isPasswordInputProtected,
-    }));
-  };
-
   render() {
     return (
       <KeyboardAvoidingView style={styles.view} behavior="padding">
         <Input
-          inputContainerStyle={styles.inputContainer}
-          leftIcon={
-            <SimpleLineIcons
-              name="envelope"
-              size={20}
-              color={
-                this.state.focusedInput === 'email'
-                  ? variables.colors.primary
-                  : variables.colors.gray3
-              }
-            />
-          }
-          keyboardType="email-address"
-          autoCapitalize="none"
-          autoCorrect={false}
           value={this.state.email}
           onChangeText={this.onChangeEmail}
           placeholder="Email"
-          leftIconContainerStyle={styles.inputIconContainer}
-          onFocus={() => {
-            this.setState({ focusedInput: 'email' });
-          }}
-          onBlur={() => {
-            this.setState(focusedInput => ({
-              focusedInput: focusedInput === 'email' ? null : focusedInput,
-            }));
+          keyboardType="email-address"
+          autoCapitalize="none"
+          autoCorrect={false}
+          inputContainerStyle={styles.inputContainer}
+          leftIcon={{
+            set: SimpleLineIcons,
+            name: 'envelope',
+            size: 20,
           }}
         />
-        <Input
+        <InputPassword
           inputContainerStyle={styles.inputContainer}
           errorMessage={this.props.error}
-          leftIcon={
-            <SimpleLineIcons
-              name="lock"
-              size={20}
-              color={
-                this.state.focusedInput === 'password'
-                  ? variables.colors.primary
-                  : variables.colors.gray3
-              }
-            />
-          }
-          rightIcon={
-            <MaterialCommunityIcons
-              name="eye-outline"
-              size={20}
-              onPress={this.onTogglePasswordInputProtection}
-              color={
-                !this.state.isPasswordInputProtected
-                  ? variables.colors.primary
-                  : variables.colors.gray3
-              }
-            />
-          }
-          secureTextEntry={this.state.isPasswordInputProtected}
-          autoCapitalize="none"
-          value={this.state.password}
           onChangeText={this.onChangePassword}
-          placeholder="Password"
-          leftIconContainerStyle={styles.inputIconContainer}
-          onFocus={() => {
-            this.setState({ focusedInput: 'password' });
-          }}
-          onBlur={() => {
-            this.setState(focusedInput => ({
-              focusedInput: focusedInput === 'password' ? null : focusedInput,
-            }));
-          }}
+          value={this.state.password}
         />
         <View style={styles.buttonContainer}>
           <Button
             title="Login"
-            onPress={() => this.props.onPressLogin(this.state.email, this.state.password)}
+            onPress={() => this.props.onLogin(this.state.email, this.state.password)}
           />
         </View>
       </KeyboardAvoidingView>
@@ -113,7 +56,7 @@ class LoginForm extends Component {
 }
 
 LoginForm.propTypes = {
-  onPressLogin: PropTypes.func.isRequired,
+  onLogin: PropTypes.func.isRequired,
   error: PropTypes.string,
 };
 
@@ -126,15 +69,10 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     marginTop: 20,
+    width: '100%',
   },
   inputContainer: {
-    margin: 0,
     marginBottom: 30,
-    padding: 0,
-  },
-  inputIconContainer: {
-    paddingRight: 10,
-    margin: 0,
   },
 });
 

@@ -12,7 +12,7 @@ class LoginScreen extends Component {
     error: null,
   };
 
-  login = async (email, password) => {
+  onLoginHandler = async (email, password) => {
     try {
       await firebase.auth().signInWithEmailAndPassword(email, password);
       this.props.navigation.navigate(App);
@@ -30,7 +30,7 @@ class LoginScreen extends Component {
   render() {
     return (
       <View style={styles.view}>
-        <LoginForm onPressLogin={this.login} error={this.state.error} />
+        <LoginForm onLogin={this.onLoginHandler} error={this.state.error} />
         <NewAccountLink onPressButton={this.onPressSignUp} />
       </View>
     );
