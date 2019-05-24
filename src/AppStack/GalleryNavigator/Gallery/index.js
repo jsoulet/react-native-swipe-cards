@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FlatList, Image, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
+import { FlatList, Image, StyleSheet, Dimensions, TouchableOpacity, View } from 'react-native';
 
-// import Api from '../../../../api';
+import Header from './Header';
 
 // const Images = Api.listImages();
 const Images = [
@@ -29,7 +29,7 @@ const GallerieItem = ({ item: { uri }, onPress }) => {
 
 GallerieItem.propTypes = {
   item: PropTypes.shape({
-    uri: PropTypes.string.isRequired,
+    uri: PropTypes.number.isRequired,
   }).isRequired,
   onPress: PropTypes.func.isRequired,
 };
@@ -52,16 +52,18 @@ Gallerie.propTypes = {
 
 const GalleryContainer = ({ navigation }) => {
   return (
-    <Gallerie
-      onPressItem={id => {
-        navigation.navigate('ImagePreview', { id, tabBarHidden: true });
-      }}
-    />
+    <View style={{ flex: 1 }}>
+      <Header />
+      <Gallerie
+        onPressItem={id => {
+          navigation.navigate('ImagePreview', { id, tabBarHidden: true });
+        }}
+      />
+    </View>
   );
 };
 
 GalleryContainer.navigationOptions = {
-  headerMode: 'none',
   title: 'username',
 };
 

@@ -1,19 +1,25 @@
-import React from 'react';
-import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
+import { createBottomTabNavigator } from 'react-navigation';
 
 import SwipeCards from './SwipeCards';
 import GalleryNavigator from './GalleryNavigator';
 import Camera from './Camera';
 
+import variables from '$components/variables';
+
 const AppStack = createBottomTabNavigator(
-    {
-        SwipeCards: SwipeCards,
-        Camera: Camera,
-        GalleryNavigator: GalleryNavigator,
+  {
+    SwipeCards,
+    Camera,
+    GalleryNavigator,
+  },
+  {
+    initialRouteName: 'GalleryNavigator',
+    tabBarOptions: {
+      activeTintColor: variables.colors.primary,
+      inactiveTintColor: variables.colors.gray0,
+      showLabel: false,
     },
-    {
-        initialRouteName: 'GalleryNavigator',
-    }
+  }
 );
 
 export const NAVIGATION_NAME = 'APP_STACK';

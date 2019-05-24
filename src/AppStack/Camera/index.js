@@ -6,6 +6,9 @@ import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 class CameraView extends Component {
   static navigationOptions = {
     tabBarVisible: false,
+    tabBarIcon: ({ tintColor }) => (
+      <MaterialCommunityIcons name="camera-enhance" size={30} color={tintColor} />
+    ),
   };
 
   state = {

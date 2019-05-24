@@ -19,7 +19,6 @@ const ImagePreview = ({ navigation }) => {
       </View>
     );
   }
-  console.log({ image });
   return (
     <View style={styles.view}>
       <Image source={image.uri} />

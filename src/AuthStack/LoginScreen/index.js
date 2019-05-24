@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
-import firebase from 'firebase';
+import PropTypes from 'prop-types';
 
 import { NAVIGATION_NAME as Signup } from '../SignUpScreen';
-import { NAVIGATION_NAME as App } from '$src/AppStack';
+
+import { withUser } from '$src/store/UserProvider';
 import LoginForm from './LoginForm';
 import NewAccountLink from './NewAccountLink';
 
@@ -12,10 +13,15 @@ class LoginScreen extends Component {
     error: null,
   };
 
+  static propTypes = {
+    user: PropTypes.shape({
+      loginWithEmailAndPassword: PropTypes.func.isRequired,
+    }),
+  };
+
   onLoginHandler = async (email, password) => {
     try {
-      await firebase.auth().signInWithEmailAndPassword(email, password);
-      this.props.navigation.navigate(App);
+      await this.props.user.loginWithEmailAndPassword(email, password);
     } catch (error) {
       this.setState({
         error: error.message,
@@ -49,4 +55,4 @@ const styles = StyleSheet.create({
 });
 
 export const NAVIGATION_NAME = 'LOGIN_SCREEN';
-export default LoginScreen;
+export default withUser(LoginScreen);
